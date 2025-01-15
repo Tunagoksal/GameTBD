@@ -638,6 +638,18 @@
 			"value" : "OFF"
 		},
 		{
+			"name" : "CMAKE_HAVE_LIBC_PTHREAD",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Test CMAKE_HAVE_LIBC_PTHREAD"
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "1"
+		},
+		{
 			"name" : "CMAKE_HOME_DIRECTORY",
 			"properties" : 
 			[
@@ -1254,6 +1266,30 @@
 			"value" : "FALSE"
 		},
 		{
+			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_SDL2",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Details about finding SDL2"
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "[mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2.dll.a][D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/include/SDL2][v()]"
+		},
+		{
+			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_Threads",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Details about finding Threads"
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "[TRUE][v()]"
+		},
+		{
 			"name" : "GameTBD_BINARY_DIR",
 			"properties" : 
 			[
@@ -1288,6 +1324,66 @@
 			],
 			"type" : "STATIC",
 			"value" : "D:/C++/projects/GameTBD"
+		},
+		{
+			"name" : "MINGW32_LIBRARY",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "mwindows for MinGW"
+				}
+			],
+			"type" : "STRING",
+			"value" : "mingw32;-mwindows"
+		},
+		{
+			"name" : "SDL2MAIN_LIBRARY",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Path to a library."
+				}
+			],
+			"type" : "FILEPATH",
+			"value" : "D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a"
+		},
+		{
+			"name" : "SDL2_INCLUDE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Path to a file."
+				}
+			],
+			"type" : "PATH",
+			"value" : "D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/include/SDL2"
+		},
+		{
+			"name" : "SDL2_LIBRARY",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Where the SDL2 Library can be found"
+				}
+			],
+			"type" : "STRING",
+			"value" : "mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2.dll.a"
+		},
+		{
+			"name" : "SDL2_LIBRARY_TEMP",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : ""
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2.dll.a"
 		},
 		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",
