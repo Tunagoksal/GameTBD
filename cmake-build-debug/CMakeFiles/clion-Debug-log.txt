@@ -1,5 +1,4 @@
 "C:\Users\Tuna\AppData\Local\JetBrains\CLion 2023.2.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Users/Tuna/AppData/Local/JetBrains/CLion 2023.2.2/bin/ninja/win/x64/ninja.exe" -G Ninja -S D:\C++\projects\GameTBD -B D:\C++\projects\GameTBD\cmake-build-debug
--- Found SDL2: mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2.dll.a  
--- Configuring done (0.1s)
+-- Configuring done (0.2s)
 -- Generating done (0.0s)
 -- Build files have been written to: D:/C++/projects/GameTBD/cmake-build-debug

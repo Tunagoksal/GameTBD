@@ -255,10 +255,22 @@ MINGW32_LIBRARY:STRING=mingw32;-mwindows
 SDL2MAIN_LIBRARY:FILEPATH=D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a
 
 //Path to a file.
+SDL2_IMAGE_INCLUDE_DIR:PATH=D:/C++/projects/sdl/SDL2_image-2.8.4/x86_64-w64-mingw32/include/SDL2
+
+//Path to a library.
+SDL2_IMAGE_LIBRARY:FILEPATH=D:/C++/projects/sdl/SDL2_image-2.8.4/x86_64-w64-mingw32/lib/libSDL2_image.dll.a
+
+//Path to a file.
 SDL2_INCLUDE_DIR:PATH=D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/include/SDL2
 
 //Where the SDL2 Library can be found
 SDL2_LIBRARY:STRING=mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2.dll.a
+
+//Path to a file.
+SDL2_TTF_INCLUDE_DIR:PATH=D:/C++/projects/sdl/SDL2_ttf-2.24.0/x86_64-w64-mingw32/include/SDL2
+
+//Path to a library.
+SDL2_TTF_LIBRARY:FILEPATH=D:/C++/projects/sdl/SDL2_ttf-2.24.0/x86_64-w64-mingw32/lib/libSDL2_ttf.dll.a
 
 
 ########################
@@ -421,9 +433,17 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding SDL2
 FIND_PACKAGE_MESSAGE_DETAILS_SDL2:INTERNAL=[mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2.dll.a][D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/include/SDL2][v()]
+//Details about finding SDL2_image
+FIND_PACKAGE_MESSAGE_DETAILS_SDL2_image:INTERNAL=[D:/C++/projects/sdl/SDL2_image-2.8.4/x86_64-w64-mingw32/lib/libSDL2_image.dll.a][D:/C++/projects/sdl/SDL2_image-2.8.4/x86_64-w64-mingw32/include/SDL2][v2.8.4()]
+//Details about finding SDL2_ttf
+FIND_PACKAGE_MESSAGE_DETAILS_SDL2_ttf:INTERNAL=[D:/C++/projects/sdl/SDL2_ttf-2.24.0/x86_64-w64-mingw32/lib/libSDL2_ttf.dll.a][D:/C++/projects/sdl/SDL2_ttf-2.24.0/x86_64-w64-mingw32/include/SDL2][v2.24.0()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
-SDL2_LIBRARY_TEMP:INTERNAL=mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2.dll.a
+//ADVANCED property for variable: SDL2_IMAGE_INCLUDE_DIR
+SDL2_IMAGE_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SDL2_IMAGE_LIBRARY
+SDL2_IMAGE_LIBRARY-ADVANCED:INTERNAL=1
+SDL2_LIBRARY_TEMP:INTERNAL=mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;mingw32;-mwindows;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2main.a;D:/C++/projects/sdl/SDL2-2.30.11/x86_64-w64-mingw32/lib/libSDL2.dll.a
 //linker supports push/pop state
 _CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 
