@@ -2,6 +2,7 @@
 and may not be redistributed without written permission.*/
 
 //Using SDL, SDL_image, SDL_ttf, standard IO, strings, and string streams
+/*
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -11,8 +12,8 @@ and may not be redistributed without written permission.*/
 #include <iostream>
 
 #include "Animation.h"
-#include "entities/Pacman.h"
-#include "entities/Ghost.h"
+#include "Pacman.h"
+#include "Ghost.h"
 #include "Texture.h"
 
 using namespace std;
@@ -495,8 +496,11 @@ void close()
 	SDL_Quit();
 }
 
+
 int main( int argc, char* args[] )
 {
+
+
 	//Start up SDL and create window
 	if( !init() )
 	{
@@ -567,6 +571,7 @@ int main( int argc, char* args[] )
 					}
 				}
 
+
 				//Set text to be rendered
 				timeText.str( "" );
 				timeText << ( timer.getTicks() / 1000.f ) ;
@@ -588,7 +593,12 @@ int main( int argc, char* args[] )
                 gTimePromtTexture.render((SCREEN_WIDTH - gTimePromtTexture.getWidth() ) / 2, ( SCREEN_HEIGHT - gTimeTextTexture.getHeight() ) / 2);
 				gTimeTextTexture.render( ( SCREEN_WIDTH - gTimeTextTexture.getWidth() ) / 2 + gTimePromtTexture.getWidth() / 3*2, ( SCREEN_HEIGHT - gTimeTextTexture.getHeight() ) / 2 );
 
-				//Update screen
+
+
+                SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+                SDL_RenderClear( gRenderer );
+
+
 				SDL_RenderPresent( gRenderer );
 			}
 		}
@@ -598,4 +608,112 @@ int main( int argc, char* args[] )
 	close();
 
 	return 0;
+
+
+}
+*/
+#include <SDL.h>
+#include <SDL_image.h>
+#include <iostream>
+#include "Animation.h"
+#include "Pacman.h"
+#include "InputController.h"
+
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 600;
+const int FRAME_WIDTH = 64;   // Adjust according to your sprite sheet
+const int FRAME_HEIGHT = 64;  // Adjust according to your sprite sheet
+const int FRAME_COUNT = 36;    // Number of frames in your sprite sheet
+const int ANIMATION_SPEED = 100; // Speed in milliseconds
+
+bool init(SDL_Window*& window, SDL_Renderer*& renderer) {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        std::cerr << "SDL could not initialize! SDL Error: " << SDL_GetError() << "\n";
+        return false;
+    }
+
+    if (!IMG_Init(IMG_INIT_PNG)) {
+        std::cerr << "SDL_image could not initialize! IMG Error: " << IMG_GetError() << "\n";
+        return false;
+    }
+
+    window = SDL_CreateWindow("SDL Animation Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    if (!window) {
+        std::cerr << "Window could not be created! SDL Error: " << SDL_GetError() << "\n";
+        return false;
+    }
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer) {
+        std::cerr << "Renderer could not be created! SDL Error: " << SDL_GetError() << "\n";
+        return false;
+    }
+
+    return true;
+}
+
+SDL_Texture* loadTexture(const std::string& path, SDL_Renderer* renderer) {
+    SDL_Texture* newTexture = IMG_LoadTexture(renderer, path.c_str());
+    if (!newTexture) {
+        std::cerr << "Unable to load texture! SDL_image Error: " << IMG_GetError() << "\n";
+    }
+    return newTexture;
+}
+
+int main(int argc, char* args[]) {
+    SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
+
+    if (!init(window, renderer)) {
+        return -1;
+    }
+
+    SDL_Texture* spriteSheet = loadTexture(R"(D:\C++\projects\GameTBD\assets\IMG_0615.JPG)", renderer);
+    if (!spriteSheet) {
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return -1;
+    }
+
+    //Animation animation(spriteSheet, FRAME_WIDTH, FRAME_HEIGHT, FRAME_COUNT, ANIMATION_SPEED,6,6);
+    Pacman pacman(spriteSheet);
+
+    bool quit = false;
+    SDL_Event e;
+    Uint32 lastTime = SDL_GetTicks();
+
+    while (!quit) {
+        Uint32 currentTime = SDL_GetTicks();
+        Uint32 deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+
+        InputController inputController;
+
+        /*
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_QUIT) {
+                quit = true;
+            }
+        }*/
+
+        inputController.handleInput(pacman);
+        quit = inputController.isGameRunning();
+
+        pacman.update(deltaTime);
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+
+        pacman.render(renderer);
+
+
+        SDL_RenderPresent(renderer);
+    }
+
+    SDL_DestroyTexture(spriteSheet);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+    return 0;
 }
