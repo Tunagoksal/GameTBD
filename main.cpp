@@ -668,7 +668,7 @@ int main(int argc, char* args[]) {
         return -1;
     }
 
-    SDL_Texture* spriteSheet = loadTexture(R"(D:\C++\projects\GameTBD\assets\IMG_0615.JPG)", renderer);
+    SDL_Texture* spriteSheet = loadTexture("D:/C++/projects/GameTBD/assets/nathan-lorre-decor-culdesac-1.bmp", renderer);
     if (!spriteSheet) {
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
