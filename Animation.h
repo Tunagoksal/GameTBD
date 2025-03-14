@@ -5,11 +5,12 @@
 #ifndef GAMETBD_ANIMATION_H
 #define GAMETBD_ANIMATION_H
 
-#include "Texture.h"
+#include <SDL.h>
 
 class Animation
 {
 public:
+    Animation();
     Animation(SDL_Texture* texture,int frameWidth,int frameHeight,int frames,int speed,int rows,int columns);
     void update(Uint32 deltaTime);
     void render(SDL_Renderer* renderer, int x, int y);

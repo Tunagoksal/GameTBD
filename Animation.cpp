@@ -5,11 +5,12 @@ Animation::Animation(SDL_Texture* texture, int frameWidth, int frameHeight, int 
     this->sprite = texture;
     this->frameWidth = frameWidth;
     this->frameHeight = frameHeight;
-    this->frameNum=frames;
+    this->frameNum = frames;
     this->speed = speed;
     this->rowNum = rows;
     this->columnNum = columns;
 }
+
 void Animation::render(SDL_Renderer* renderer, int x, int y) {
     if (!sprite) return;
 
@@ -20,6 +21,7 @@ void Animation::render(SDL_Renderer* renderer, int x, int y) {
     SDL_Rect destFrame = {x,y,frameWidth,frameHeight};
     SDL_RenderCopy(renderer,sprite,&srcFrame,&destFrame);
 }
+
 void Animation::update(Uint32 deltaTime) {
     elapsedTime += deltaTime;
     if(elapsedTime >= speed){

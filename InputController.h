@@ -12,7 +12,7 @@ public:
         SDL_Event event;
         while (SDL_PollEvent(&event)){
             if (event.type == SDL_QUIT){
-                quit = true;
+                running = false;
             }
             else if(event.type == SDL_KEYDOWN){
                 switch (event.key.keysym.sym) {
@@ -24,9 +24,9 @@ public:
             }
         }
     }
-    bool isGameRunning() const{ return quit;}
+    bool isGameRunning() const{ return running;}
 private:
-    bool quit = false;
+    bool running = true;
 };
 
 #endif //GAMETBD_INPUTCONTROLLER_H

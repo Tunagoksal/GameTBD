@@ -21,6 +21,11 @@ add_executable(GameTBD main.cpp
                 Pacman.cpp
                 Pacman.h
                 Animation.cpp
-                Animation.h)
+                Animation.h
+        GameManager.cpp
+        Map.cpp
+        CollisionManager.h
+        CollisionManager.cpp
+        Ghost.cpp)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${SDL2_TTF_LIBRARIES})
