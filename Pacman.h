@@ -33,6 +33,9 @@ public:
         this->y = y;
         this->collider.y = y;
     }
+    void setState(State state){
+        this->state = state;
+    }
 
     SDL_Rect getCollider(){return  collider;}
     State getState(){return state;}
@@ -50,7 +53,7 @@ private:
 
     State state;
     Uint32 powerUpStart = 0;
-    Uint32 powerUpDuration = 5000;
+    Uint32 powerUpDuration = 50000;
 
 
     void NextPosition(Direction dir, int& posX, int& posY, int tileSize);

@@ -37,11 +37,18 @@ bool GameManager::init(const char *title, int width, int height) {
     tileTextures[0] = floorTexture;
     tileTextures[1] = wallTexture;
 
-    SDL_Texture *pacmanSprite = loadTexture("D:/C++/projects/GameTBD/assets/nathan-lorre-decor-culdesac-1.bmp", renderer);
-    SDL_Texture *ghostSprite = loadTexture("D:/C++/projects/GameTBD/assets/Dune_GiediPrime_MattRhodes-1100x413.bmp", renderer);
+    SDL_Texture *pacmanSprite = loadTexture("D:/C++/projects/GameTBD/assets/pacman.png", renderer);
+    SDL_Texture *ghostSprite = loadTexture("D:/C++/projects/GameTBD/assets/red_ghost.png", renderer);
+    SDL_Texture *powerUpSprite = loadTexture("D:/C++/projects/GameTBD/assets/powerUp.png", renderer);
 
     running = true;
     gameMap.loadMap("D:/C++/projects/GameTBD/map.JSON", tileTextures);    // Load map from JSON
+
+    powerUps.resize(gameMap.getPowerUpPositions().size());
+
+    for (int i = 0; i < powerUps.size(); ++i) {
+        powerUps[i] = new PowerUp(powerUpSprite,gameMap.getPowerUpPositions()[i].x,gameMap.getPowerUpPositions()[i].y);
+    }
 
     pacman = new Pacman(pacmanSprite,gameMap.getPacmanPos().x,gameMap.getPacmanPos().y,collisionManager);
     ghosts = new Ghost(ghostSprite,gameMap.getGhostPos().x,gameMap.getGhostPos().y,collisionManager);
@@ -69,7 +76,15 @@ void GameManager::run() {
 
 void GameManager::cleanup() {
     delete pacman;
-    delete ghosts;
+    if (ghosts) {
+        delete ghosts;
+        ghosts = nullptr;
+    }
+    for (PowerUp* &powerUp : powerUps) {
+        delete powerUp;
+        powerUp = nullptr;
+    }
+    powerUps.clear();
     for (int i = 0; i < 4; i++) {
         if (tileTextures[i]) {
             SDL_DestroyTexture(tileTextures[i]);
@@ -86,18 +101,21 @@ void GameManager::render() {
     SDL_RenderClear(renderer);
     gameMap.render(renderer);
     pacman->render(renderer);
-    ghosts->render(renderer);
-    //for (auto& ghost : ghosts) ghost->render(renderer);
+    if(ghosts){
+        ghosts->render(renderer);
+    }
+    for (int i = 0; i < powerUps.size(); i++) {
+        if (powerUps[i]) {
+            powerUps[i]->render(renderer);
+        }
+    }
     SDL_RenderPresent(renderer);
 }
 
 void GameManager::update(int deltaTime) {
-    int oldX = pacman->getX();
-    int oldY = pacman->getY();
 
     pacman->update(deltaTime);
     ghosts->update(deltaTime);
-
 
     if (collisionManager->isEntityCollison(pacman->getCollider(), ghosts->getCollider())) {
 
@@ -106,13 +124,24 @@ void GameManager::update(int deltaTime) {
                 running = false;
                 break;
             case Pacman::IMMORTAL:
-                delete ghosts;
+                if(ghosts->getState() == Ghost::SCARED){
+                    ghosts->setState(Ghost::EYES);
+                }else if (ghosts->getState() == Ghost::GHOST){
+                    running = false;
+                }
                 break;
             default:
                 break;
         }
     }
 
+    for (int i = 0; i < powerUps.size(); ++i) {
+        if(collisionManager->isEntityCollison(pacman->getCollider(),powerUps[i]->getCollider())){
+            pacman->setState(Pacman::IMMORTAL);
+            ghosts->setState(Ghost::SCARED);
+            powerUps[i]->setActive(false);
+        }
+    }
 }
 
 SDL_Texture *GameManager::loadTexture(const string &path, SDL_Renderer *renderer) {
@@ -124,5 +153,6 @@ SDL_Texture *GameManager::loadTexture(const string &path, SDL_Renderer *renderer
     }
     return newTexture;
 }
+
 
 

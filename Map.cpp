@@ -33,7 +33,9 @@ bool Map::loadMap(const std::string &filename, SDL_Texture* textures[]) {
             if (tile == '#') {
                 type = 1;
             }
-
+            if (tile == '*') {
+                powerUpPos.push_back({x,y});
+            }
             if (tile == 'P') {
                 pacmanPos = {x, y};
             }

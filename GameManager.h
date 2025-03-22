@@ -6,6 +6,7 @@
 #include <vector>
 #include "Pacman.h"
 #include "Ghost.h"
+#include "PowerUp.h"
 #include "Map.h"
 #include "InputController.h"
 #include "CollisionManager.h"
@@ -13,6 +14,7 @@
 
 class GameManager {
 public:
+
     bool init(const char* title, int width, int height);
     void run();
     void cleanup();
@@ -32,6 +34,8 @@ private:
 
     Pacman *pacman;
     Ghost *ghosts;
+    //PowerUp* powerUps[4];
+    vector<PowerUp*> powerUps;
     CollisionManager *collisionManager;
 };
 

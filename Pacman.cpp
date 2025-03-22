@@ -6,7 +6,7 @@
 #include "Pacman.h"
 #include <SDL_image.h>
 
-Pacman::Pacman(SDL_Texture *texture,int x,int y,CollisionManager* manager):pacmanA(texture, 16, 16, 42, 200,6,7)  {
+Pacman::Pacman(SDL_Texture *texture,int x,int y,CollisionManager* manager):pacmanA(texture, 16, 16, 1, 200,1,1)  {
 
     state = REGULAR;
     currentDir = DEFOULT;

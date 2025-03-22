@@ -26,6 +26,7 @@ add_executable(GameTBD main.cpp
         Map.cpp
         CollisionManager.h
         CollisionManager.cpp
-        Ghost.cpp)
+        Ghost.cpp
+        PowerUp.h)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${SDL2_TTF_LIBRARIES})

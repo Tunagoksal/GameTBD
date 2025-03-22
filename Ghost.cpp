@@ -5,7 +5,9 @@
 #include "Ghost.h"
 
 
-Ghost::Ghost(SDL_Texture *texture, int x, int y, CollisionManager *manager):ghostA(texture, 16, 16, 42, 200,6,7) {
+Ghost::Ghost(SDL_Texture *texture, int x, int y, CollisionManager *manager):ghostA(texture, 16, 16, 1, 200,1,1) {
+    state = GHOST;
+
     this->collisionManager = manager;
     speed = 2;
     this->x = x;
@@ -57,7 +59,20 @@ void Ghost::move(float deltaTime) {
 void Ghost::update(Uint32 deltaTime) {
     float dt = static_cast<float>(deltaTime);
     ghostA.update(dt);
-    move(dt);
+    switch (state) {
+        case GHOST:
+            move(dt);
+            break;
+        case SCARED:
+            move(dt); // later to be changed with running algorithm
+            break;
+        case EYES:
+            x = 144; // later to be changed with respawning algorithm
+            y = 144;
+            move(dt);
+
+    }
+
 }
 
 void Ghost::render(SDL_Renderer* renderer) {
