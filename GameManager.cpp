@@ -37,21 +37,31 @@ bool GameManager::init(const char *title, int width, int height) {
     tileTextures[0] = floorTexture;
     tileTextures[1] = wallTexture;
 
-    SDL_Texture *pacmanSprite = loadTexture("D:/C++/projects/GameTBD/assets/pacman.png", renderer);
-    SDL_Texture *ghostSprite = loadTexture("D:/C++/projects/GameTBD/assets/red_ghost.png", renderer);
-    SDL_Texture *powerUpSprite = loadTexture("D:/C++/projects/GameTBD/assets/powerUp.png", renderer);
-
     running = true;
     gameMap.loadMap("D:/C++/projects/GameTBD/map.JSON", tileTextures);    // Load map from JSON
 
     powerUps.resize(gameMap.getPowerUpPositions().size());
+    ghosts.resize(gameMap.getGhostsPos().size());
+
+    SDL_Texture *pacmanSprite = loadTexture("D:/C++/projects/GameTBD/assets/pacman.png", renderer);
+    SDL_Texture *powerUpSprite = loadTexture("D:/C++/projects/GameTBD/assets/powerUp.png", renderer);
+
+    //TODO write a wrapper class for texture
+    ghostSprite[0] = loadTexture("D:/C++/projects/GameTBD/assets/red_ghost.png", renderer);
+    ghostSprite[1] = loadTexture("D:/C++/projects/GameTBD/assets/pink_ghost.png", renderer);
+    ghostSprite[2] = loadTexture("D:/C++/projects/GameTBD/assets/blue_ghost.png", renderer);
+    ghostSprite[3] = loadTexture("D:/C++/projects/GameTBD/assets/orange_ghost.png", renderer);
 
     for (int i = 0; i < powerUps.size(); ++i) {
         powerUps[i] = new PowerUp(powerUpSprite,gameMap.getPowerUpPositions()[i].x,gameMap.getPowerUpPositions()[i].y);
     }
+    for (int i = 0; i < ghosts.size(); ++i) {
+        ghosts[i] = new Ghost(ghostSprite[i],gameMap.getGhostsPos()[i].x,gameMap.getGhostsPos()[i].y,collisionManager);
+    }
+    //TODO ghost problem might be causes by the collision manager or giving the same instance of collision manager to all
 
     pacman = new Pacman(pacmanSprite,gameMap.getPacmanPos().x,gameMap.getPacmanPos().y,collisionManager);
-    ghosts = new Ghost(ghostSprite,gameMap.getGhostPos().x,gameMap.getGhostPos().y,collisionManager);
+    //ghost = new Ghost(ghostSprite,gameMap.getGhostPos().x,gameMap.getGhostPos().y,collisionManager);
 
     return true;
 
@@ -76,13 +86,23 @@ void GameManager::run() {
 
 void GameManager::cleanup() {
     delete pacman;
-    if (ghosts) {
-        delete ghosts;
-        ghosts = nullptr;
+    pacman = nullptr;
+
+    //TODO write a wrapper class for texture
+    for (int i = 0; i < 4; ++i) {
+        if (ghostSprite[i]) {
+            SDL_DestroyTexture(ghostSprite[i]);
+            ghostSprite[i] = nullptr;
+        }
     }
+
     for (PowerUp* &powerUp : powerUps) {
         delete powerUp;
         powerUp = nullptr;
+    }
+    for (Ghost* &ghost : ghosts) {
+        delete ghost;
+        ghost = nullptr;
     }
     powerUps.clear();
     for (int i = 0; i < 4; i++) {
@@ -91,6 +111,10 @@ void GameManager::cleanup() {
             tileTextures[i] = nullptr;
         }
     }
+
+    delete collisionManager;
+    collisionManager = nullptr;
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -101,8 +125,14 @@ void GameManager::render() {
     SDL_RenderClear(renderer);
     gameMap.render(renderer);
     pacman->render(renderer);
-    if(ghosts){
-        ghosts->render(renderer);
+    /*if(ghost){
+        ghost->render(renderer);
+    }*/
+
+    for (auto& ghost : ghosts) {
+        if(ghost){
+            ghost->render(renderer);
+        }
     }
     for (int i = 0; i < powerUps.size(); i++) {
         if (powerUps[i]) {
@@ -115,30 +145,49 @@ void GameManager::render() {
 void GameManager::update(int deltaTime) {
 
     pacman->update(deltaTime);
-    ghosts->update(deltaTime);
+    //ghost->update(deltaTime);
 
-    if (collisionManager->isEntityCollison(pacman->getCollider(), ghosts->getCollider())) {
+    for (int i = 0; i < ghosts.size(); ++i) {
+        ghosts[i]->update(deltaTime);
+        std::cout << "Ghost " << i << " at: "
+                  << ghosts[i]->getCollider().x << ", "
+                  << ghosts[i]->getCollider().y << std::endl;
+    }
 
-        switch (pacman->getState()) {
-            case Pacman::REGULAR:
-                running = false;
-                break;
-            case Pacman::IMMORTAL:
-                if(ghosts->getState() == Ghost::SCARED){
-                    ghosts->setState(Ghost::EYES);
-                }else if (ghosts->getState() == Ghost::GHOST){
+    for (auto& ghost : ghosts) {
+
+        SDL_Rect proposed = ghost->getNextCollider();
+        if (!collisionManager->isWallCollision(proposed) &&
+            !willCollideWithOtherGhost(ghost, proposed.x, proposed.y)) {
+            ghost->update(deltaTime); // this includes move()
+        } else {
+            // maybe reroll direction or skip movement this frame
+            ghost->setRandomDirection();
+        }
+
+        if (collisionManager->isEntityCollison(pacman->getCollider(), ghost->getCollider())) {
+
+            switch (pacman->getState()) {
+                case Pacman::REGULAR:
                     running = false;
-                }
-                break;
-            default:
-                break;
+                    break;
+                case Pacman::IMMORTAL:
+                    if(ghost->getState() == Ghost::SCARED){
+                        ghost->gotEaten();
+                    }else if (ghost->getState() == Ghost::GHOST){
+                        running = false;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
     for (int i = 0; i < powerUps.size(); ++i) {
-        if(collisionManager->isEntityCollison(pacman->getCollider(),powerUps[i]->getCollider())){
-            pacman->setState(Pacman::IMMORTAL);
-            ghosts->setState(Ghost::SCARED);
+        if(collisionManager->isEntityCollison(pacman->getCollider(),powerUps[i]->getCollider()) && powerUps[i]->getActive()){
+            pacman->turnImmortal();
+            for (auto& ghost : ghosts) {ghost->makeScared();}
             powerUps[i]->setActive(false);
         }
     }
@@ -154,5 +203,17 @@ SDL_Texture *GameManager::loadTexture(const string &path, SDL_Renderer *renderer
     return newTexture;
 }
 
+bool GameManager::willCollideWithOtherGhost(Ghost* current, int nextX, int nextY) {
+    SDL_Rect nextCollider = {nextX, nextY, 16, 16};
+    for (Ghost* other : ghosts) {
+        SDL_Rect otherCollider = other->getCollider();
+        if (other != current) {
+            if (SDL_HasIntersection(&nextCollider, &otherCollider)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 

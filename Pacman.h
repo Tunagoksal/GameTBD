@@ -53,7 +53,7 @@ private:
 
     State state;
     Uint32 powerUpStart = 0;
-    Uint32 powerUpDuration = 50000;
+    Uint32 powerUpDuration = 10000;
 
 
     void NextPosition(Direction dir, int& posX, int& posY, int tileSize);

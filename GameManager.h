@@ -19,6 +19,7 @@ public:
     void run();
     void cleanup();
     SDL_Texture* loadTexture(const std::string& path, SDL_Renderer* renderer);
+    void handlePacmanGhostCollision(Pacman* pacman, Ghost* ghost, bool& running);
 
 private:
     void handleEvents();
@@ -31,12 +32,15 @@ private:
 
     Map gameMap;
     SDL_Texture* tileTextures[2];
+    SDL_Texture* ghostSprite[4];
 
     Pacman *pacman;
-    Ghost *ghosts;
-    //PowerUp* powerUps[4];
+    vector<Ghost*> ghosts;
     vector<PowerUp*> powerUps;
     CollisionManager *collisionManager;
+
+    //TODO  this collision stuff are everywhere change it !!!
+    bool willCollideWithOtherGhost(Ghost *current, int nextX, int nextY);
 };
 
 #endif

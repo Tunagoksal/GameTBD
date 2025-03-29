@@ -25,14 +25,26 @@ public:
     }
     State getState(){return state;}
 
+    SDL_Rect getNextCollider() const;
+    void setRandomDirection();
+
+    void makeScared();
+    void gotEaten();
+
 private:
     int x,y;
+    SDL_Point startPoint;
     Animation ghostA;
     SDL_Rect collider;
     CollisionManager* collisionManager;
     int speed;
     State state;
 
+    float movementAccumulator = 0.0f;
+    int randomDir = rand() % 4;
+
+    Uint32 scaredTimer = 0;
+    Uint32 scaredDuration = 10000;
 
 };
 

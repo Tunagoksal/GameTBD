@@ -40,6 +40,7 @@ bool Map::loadMap(const std::string &filename, SDL_Texture* textures[]) {
                 pacmanPos = {x, y};
             }
             else if (tile == 'G') {
+                ghostsPos.push_back({x,y});
                 GhostPos = {x, y};
             }
             if (type != 0) {
